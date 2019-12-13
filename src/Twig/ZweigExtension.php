@@ -71,11 +71,6 @@ class ZweigExtension implements ExtensionInterface
             new TwigFunction(
                 'component',
                 [ZweigRuntimeExtension::class, 'componentFunction']
-            ),
-            new TwigFunction(
-                'props',
-                [ZweigRuntimeExtension::class, 'propsFunction'],
-                ['needs_context' => true]
             )
         ];
     }

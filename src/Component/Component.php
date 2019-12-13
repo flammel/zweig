@@ -1,14 +1,11 @@
 <?php
 
-namespace Flammel\Zweig\Presenter;
+namespace Flammel\Zweig\Component;
 
-use Flammel\Zweig\Component\ComponentContext;
-use Flammel\Zweig\TemplatePath\TemplatePath;
-
-final class Presentable
+final class Component
 {
     /**
-     * @var TemplatePath
+     * @var ComponentTemplatePath
      */
     private $path;
 
@@ -17,16 +14,20 @@ final class Presentable
      */
     private $context;
 
-    public function __construct(TemplatePath $path, ComponentContext $context)
+    /**
+     * @param ComponentTemplatePath $path
+     * @param ComponentContext $context
+     */
+    public function __construct(ComponentTemplatePath $path, ComponentContext $context)
     {
         $this->path = $path;
         $this->context = $context;
     }
 
     /**
-     * @return TemplatePath
+     * @return ComponentTemplatePath
      */
-    public function getPath(): TemplatePath
+    public function getPath(): ComponentTemplatePath
     {
         return $this->path;
     }

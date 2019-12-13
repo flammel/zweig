@@ -22,7 +22,7 @@ final class ComponentArguments implements \ArrayAccess
     /**
      * @return array
      */
-    public function getArguments(): array
+    public function toArray(): array
     {
         return $this->arguments;
     }

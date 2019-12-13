@@ -3,9 +3,9 @@
 namespace Flammel\Zweig\Renderer;
 
 use Flammel\Zweig\Exception\ZweigException;
-use Flammel\Zweig\Presenter\PresenterFactory;
 use Flammel\Zweig\Component\ComponentArguments;
 use Flammel\Zweig\Component\ComponentName;
+use Flammel\Zweig\Presenter\Presenter;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -20,22 +20,23 @@ class ComponentRenderer
     private $twig;
 
     /**
-     * @var PresenterFactory
-     */
-    protected $presenterFactory;
-
-    /**
      * @var array
      */
     private $openComponents;
 
     /**
-     * @param Environment $twig
+     * @var Presenter
      */
-    public function __construct(Environment $twig, PresenterFactory $presenterFactory)
+    private $presenter;
+
+    /**
+     * @param Environment $twig
+     * @param Presenter $presenter
+     */
+    public function __construct(Environment $twig, Presenter $presenter)
     {
         $this->twig = $twig;
-        $this->presenterFactory = $presenterFactory;
+        $this->presenter = $presenter;
         $this->openComponents = [];
     }
 
@@ -43,23 +44,32 @@ class ComponentRenderer
      * @param ComponentName $name
      * @param ComponentArguments $arguments
      * @return string
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
+     * @throws ZweigException
      */
     public function render(ComponentName $name, ComponentArguments $arguments): string
     {
         try {
-            $presentable = $this->presenterFactory->getPresenter($name)->present($name, $arguments);
+            $presentable = $this->presenter->present($name, $arguments);
             return $this->twig->render(
                 $presentable->getPath()->getPath(),
                 $presentable->getContext()->toContextArray()
             );
-        } catch (ZweigException $e) {
-            throw new RuntimeError(
-                'An error occured while trying to render component ' . $name->getName(),
-                -1,
-                null,
+        } catch (LoaderError $e) {
+            throw new ZweigException(
+                'A loader error occured while trying to render component ' . $name->getName(),
+                1576234772,
+                $e
+            );
+        } catch (RuntimeError $e) {
+            throw new ZweigException(
+                'A runtime error occured while trying to render component ' . $name->getName(),
+                1584348561,
+                $e
+            );
+        } catch (SyntaxError $e) {
+            throw new ZweigException(
+                'A syntax error occured while trying to render component ' . $name->getName(),
+                1568433417,
                 $e
             );
         }
@@ -74,9 +84,6 @@ class ComponentRenderer
      * @param Template $template
      * @return string
      * @throws ZweigException
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     public function renderComponent(
         string $name,
@@ -122,7 +129,9 @@ class ComponentRenderer
         // that the `fills` method returns the correct value for subsequent fills.
         ob_start();
         $openComponent = array_shift($this->openComponents);
-        $openComponent['template']->getFill(
+        /** @var mixed $template */
+        $template = $openComponent['template'];
+        $template->getFill(
             $openComponent['name'],
             $openComponent['lineno'],
             $slotName,

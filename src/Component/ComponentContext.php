@@ -24,25 +24,7 @@ final class ComponentContext implements \ArrayAccess
      */
     public function toContextArray(): array
     {
-        return ['this' => $this];
-    }
-
-    /**
-     * @param array<string|array> $names
-     */
-    public function setPropNames(array $names): void
-    {
-        foreach ($names as $index => $name) {
-            if (is_array($name)) {
-                $default = $name[1];
-                $name = $name[0];
-            }
-            if (isset($this->data[$index])) {
-                $this->data[$name] = $this->data[$index];
-            } elseif (isset($default)) {
-                $this->data[$name] = $default;
-            }
-        }
+        return ['props' => $this];
     }
 
     /**

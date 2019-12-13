@@ -2,6 +2,7 @@
 
 namespace Flammel\Zweig\Twig;
 
+use Flammel\Zweig\Exception\ZweigException;
 use Flammel\Zweig\Renderer\ComponentRenderer;
 use Flammel\Zweig\Component\ComponentArguments;
 use Flammel\Zweig\Component\ComponentName;
@@ -33,10 +34,7 @@ class ZweigRuntimeExtension
      * @param mixed $name
      * @param mixed ...$props
      * @return string
-     * @throws \Flammel\Zweig\Exception\ZweigException
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws ZweigException
      */
     public function componentFunction($name, ...$props)
     {
@@ -44,18 +42,5 @@ class ZweigRuntimeExtension
             new ComponentName($name),
             new ComponentArguments($props)
         );
-    }
-
-    /**
-     * @param array $context
-     * @param mixed ...$names
-     */
-    public function propsFunction(array $context, ...$names)
-    {
-        foreach ($context as $key => $value) {
-            if (method_exists($value, 'setPropNames')) {
-                $value->setPropNames($names);
-            }
-        }
     }
 }

@@ -2,23 +2,24 @@
 
 namespace Flammel\Zweig\Presenter;
 
+use Flammel\Zweig\Component\Component;
 use Flammel\Zweig\Component\ComponentArguments;
 use Flammel\Zweig\Component\ComponentContext;
 use Flammel\Zweig\Component\ComponentName;
-use Flammel\Zweig\TemplatePath\NameTemplatePath;
+use Flammel\Zweig\Component\NameComponentTemplatePath;
 
 final class DefaultPresenter implements Presenter
 {
     /**
      * @param ComponentName $name
      * @param ComponentArguments $arguments
-     * @return Presentable
+     * @return Component
      */
-    public function present(ComponentName $name, ComponentArguments $arguments): Presentable
+    public function present(ComponentName $name, ComponentArguments $arguments): Component
     {
-        return new Presentable(
-            new NameTemplatePath($name),
-            new ComponentContext($arguments->getArguments())
+        return new Component(
+            new NameComponentTemplatePath($name),
+            new ComponentContext($arguments->toArray())
         );
     }
 }

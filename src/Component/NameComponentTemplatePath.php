@@ -1,10 +1,8 @@
 <?php
 
-namespace Flammel\Zweig\TemplatePath;
+namespace Flammel\Zweig\Component;
 
-use Flammel\Zweig\Component\ComponentName;
-
-class NameTemplatePath implements TemplatePath
+class NameComponentTemplatePath implements ComponentTemplatePath
 {
     /**
      * @var string
