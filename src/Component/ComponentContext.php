@@ -24,7 +24,7 @@ final class ComponentContext implements \ArrayAccess
      */
     public function toContextArray(): array
     {
-        return ['props' => $this];
+        return ['props' => $this->data];
     }
 
     /**

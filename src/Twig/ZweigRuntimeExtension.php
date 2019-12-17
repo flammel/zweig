@@ -32,11 +32,11 @@ class ZweigRuntimeExtension
 
     /**
      * @param mixed $name
-     * @param mixed ...$props
+     * @param array $props
      * @return string
      * @throws ZweigException
      */
-    public function componentFunction($name, ...$props)
+    public function componentFunction($name, array $props = [])
     {
         return $this->componentRenderer->render(
             new ComponentName($name),
