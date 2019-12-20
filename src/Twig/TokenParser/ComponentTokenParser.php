@@ -90,13 +90,4 @@ class ComponentTokenParser extends AbstractTokenParser
     {
         return $token->test(['fill', 'endfill', 'endcomponent']);
     }
-
-    /**
-     * @param Token $token
-     * @return bool
-     */
-    public function decideComponentEnd(Token $token)
-    {
-        return $token->test('endcomponent');
-    }
 }

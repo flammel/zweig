@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="{{ props.lang }}">
+<head>
+{% set title = "Layout Title" %}
+{% slot "head" expose {"title": title} %}
+<title>Default title</title>
+{% endslot %}
+</head>
+<body>
+<main>
+{% slot "body" %}
+Default body
+{% endslot %}
+</main>
+<footer>
+{% slot "footer" %}
+Default footer
+{% endslot %}
+</footer>
+</body>
+</html>

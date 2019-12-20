@@ -71,7 +71,10 @@ class ZweigExtension implements ExtensionInterface
             new TwigFunction(
                 'component',
                 [ZweigRuntimeExtension::class, 'componentFunction'],
-                ['is_variadic' => true]
+                [
+                    'is_variadic' => true,
+                    'is_safe' => ['html']
+                ]
             )
         ];
     }

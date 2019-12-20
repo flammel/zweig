@@ -1,0 +1,11 @@
+{% component "Layout" with {"lang": "de"} %}
+{% fill "head" %}
+<title>{{ parent.title }} - Page Title</title>
+{% endfill %}
+{% fill "body" %}
+<h1>{{ props.headline }}</h1>
+{% slot "body" %}{% endslot %}
+{{ component("Button", label="Save") }}
+{{ component("Button", label="Cancel", type="reset") }}
+{% endfill %}
+{% endcomponent %}

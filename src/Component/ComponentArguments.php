@@ -39,10 +39,14 @@ final class ComponentArguments implements \ArrayAccess
     /**
      * @param mixed $offset
      * @return mixed
+     * @throws ZweigException
      */
     public function offsetGet($offset)
     {
-        return $this->arguments[$offset];
+        if (isset($this->arguments[$offset])) {
+            return $this->arguments[$offset];
+        }
+        throw new ZweigException('Undefined component argument ' . $offset);
     }
 
     /**
